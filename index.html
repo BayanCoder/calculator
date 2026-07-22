@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة مغسلة الفاروق للسجاد</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-color: #0B5ED7; /* أزرق رئيسي فخم */
+            --turquoise: #17B6D2; /* فيروزي */
+            --bg-color: #F4F8FB; /* خلفية هادئة */
+            --white: #FFFFFF;
+            --green: #22C55E;
+            --red: #EF4444;
+            --red-light: #FEE2E2;
+            --dark: #1E293B;
+            --gray: #64748B;
+            --border-radius: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--dark);
+            padding: 20px 12px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; /* مثالي لشاشات الجوال */
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 1. الهيدر الفخم */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--turquoise) 100%);
+            border-radius: 25px;
+            padding: 24px 20px;
+            text-align: center;
+            color: var(--white);
+            box-shadow: 0 10px 25px rgba(11, 94, 215, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 80%);
+            pointer-events: none;
+        }
+
+        .brand-logo {
+            font-size: 50px;
+            margin-bottom: 8px;
+            display: inline-block;
+            filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.15));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 12px;
+        }
+
+        .price-badge {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            color: var(--white);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 13px;
+            display: inline-block;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+
+        /* 2. بطاقات المقاسات */
+        .carpet-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* عمودين متساويين */
+            gap: 10px;
+        }
+
+        .carpet-card {
+            background: var(--white);
+            border-radius: 18px;
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carpet-card:hover, .carpet-card:active {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(11, 94, 215, 0.08);
+            border-color: rgba(11, 94, 215, 0.15);
+        }
+
+        .size-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .size-icon {
+            font-size: 18px;
+            color: var(--turquoise);
+        }
+
+        .size-text {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--dark);
+            white-space: nowrap;
+        }
+
+        /* 3. أزرار التحكم والعداد داخل المقاس الثابت */
+        .counter-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-counter {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 800;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .btn-counter:active {
+            transform: scale(0.88);
+        }
+
+        .btn-minus {
+            background-color: var(--red-light);
+            color: var(--red);
+        }
+
+        .btn-plus {
+            background-color: #DCFCE7;
+            color: var(--green);
+        }
+
+        .quantity-display {
+            font-size: 16px;
+            font-weight: 800;
+            min-width: 20px;
+            text-align: center;
+            color: var(--dark);
+            transition: transform 0.15s ease;
+        }
+
+        .quantity-active {
+            transform: scale(1.2);
+        }
+
+        /* 4. قسم المقاس اليدوي */
+        .custom-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+        }
+
+        .custom-title {
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--dark);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .custom-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .input-box {
+            background: var(--bg-color);
+            border: 1.5px solid transparent;
+            border-radius: 12px;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .input-box:focus-within {
+            border-color: var(--turquoise);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(23, 182, 210, 0.15);
+        }
+
+        .input-box label {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .input-field {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            text-align: center;
+            font-weight: 800;
+            color: var(--dark);
+            outline: none;
+        }
+
+        .btn-add-custom {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1573e6 100%);
+            color: var(--white);
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(11, 94, 215, 0.15);
+            transition: all 0.2s;
+        }
+
+        .btn-add-custom:active {
+            transform: scale(0.97);
+        }
+
+        .custom-added-list {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* 5. قسم التوصيل */
+        .delivery-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 16px 18px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.02);
+            transition: all 0.25s;
+        }
+
+        .delivery-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .delivery-title {
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gray);
+            transition: color 0.2s;
+        }
+
+        .toggle-text.active {
+            color: var(--primary-color);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E2E8F0;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        .delivery-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .delivery-dropdown.show {
+            max-height: 100px;
+            margin-top: 14px;
+        }
+
+        .select-field {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1.5px solid #E2E8F0;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--dark);
+            outline: none;
+            background-color: var(--bg-color);
+            transition: all 0.2s;
+        }
+
+        .select-field:focus {
+            border-color: var(--primary-color);
+            background-color: var(--white);
+        }
+
+        /* 6 & 7. أزرار الإجراءات */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 2.2fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1573e6 100%);
+            color: var(--white);
+            border: none;
+            height: 55px;
+            border-radius: 16px;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(11, 94, 215, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.96);
+            box-shadow: 0 3px 8px rgba(11, 94, 215, 0.2);
+        }
+
+        .btn-reset {
+            background-color: var(--white);
+            color: var(--red);
+            border: 2px solid var(--red);
+            height: 55px;
+            border-radius: 16px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-reset:active {
+            transform: scale(0.96);
+            background-color: var(--red-light);
+        }
+
+        /* 8. الفاتورة */
+        .invoice-card {
+            background: var(--white);
+            border-radius: 22px;
+            padding: 20px;
+            display: none;
+            border: 2px solid rgba(11, 94, 215, 0.15);
+            box-shadow: 0 10px 25px rgba(11, 94, 215, 0.05);
+            animation: slideDown 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .invoice-header {
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .invoice-items {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .invoice-row-divider {
+            border: none;
+            border-top: 2px dashed #E2E8F0;
+            margin: 12px 0;
+        }
+
+        .bill-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .bill-item-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--primary-color);
+        }
+
+        .bill-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--gray);
+            font-weight: 700;
+        }
+
+        .bill-details span span {
+            color: var(--dark);
+        }
+
+        .delivery-bill-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--dark);
+        }
+
+        .total-bill-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-top: 4px;
+        }
+
+        .bill-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gray);
+        }
+
+        .bill-summary-row span span {
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .total-title {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .total-price {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--green);
+        }
+
+        .rounding-note {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gray);
+            text-align: left;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
+        .btn-delete-custom {
+            background: none;
+            border: none;
+            color: var(--red);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 4px;
+            transition: transform 0.2s;
+        }
+
+        .btn-delete-custom:active {
+            transform: scale(0.8);
+        }
+
+        footer {
+            text-align: center;
+            margin: 10px 0 20px 0;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand-logo">🐼</div>
+        <h1>مغسلة الفاروق</h1>
+        <div class="subtitle">لغسيل السجاد والمفروشات الحديث</div>
+        <div class="price-badge">سعر المتر المربع: 12 شيكل</div>
+    </header>
+
+    <div class="carpet-list" id="carpet-list"></div>
+
+    <div class="custom-card">
+        <div class="custom-title">
+            <span>📏 إضافة مقاس خاص</span>
+        </div>
+        <div class="custom-inputs">
+            <div class="input-box">
+                <label>الطول:</label>
+                <input type="number" id="custom-height" class="input-field" placeholder="سم" min="1">
+            </div>
+            <div class="input-box">
+                <label>العرض:</label>
+                <input type="number" id="custom-width" class="input-field" placeholder="سم" min="1">
+            </div>
+        </div>
+        <button class="btn-add-custom" onclick="addCustomCarpet()">
+            <i class="fa-solid fa-plus"></i> إضافة المقاس
+        </button>
+
+        <div class="custom-added-list" id="custom-added-list"></div>
+    </div>
+
+    <div class="delivery-card">
+        <div class="delivery-row" onclick="toggleDelivery()">
+            <div class="delivery-title">
+                <span>🚚 خدمة التوصيل</span>
+            </div>
+            <div class="toggle-container" onclick="event.stopPropagation();">
+                <span class="toggle-text" id="toggle-state-text">لا</span>
+                <label class="switch">
+                    <input type="checkbox" id="delivery-checkbox" onchange="onDeliveryToggle()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="delivery-dropdown" id="delivery-options">
+            <select id="delivery-zone" class="select-field">
+                <option value="30">رهط</option>
+                <option value="30">حورة</option>
+                <option value="30">اللقية</option>
+                <option value="30">تل السبع</option>
+                <option value="30">شقيب السلام</option>
+                <option value="50">بئر السبع</option>
+                <option value="50">كسيفه</option>
+                <option value="50">ابو قويدر</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <button class="btn-calculate" onclick="calculateTotal()">
+            <i class="fa-solid fa-calculator"></i> احسب السعر
+        </button>
+        <button class="btn-reset" onclick="resetAll()">
+            <i class="fa-solid fa-trash-can"></i> تصفير
+        </button>
+    </div>
+
+    <div class="invoice-card" id="invoice-card">
+        <div class="invoice-header">
+            <i class="fa-solid fa-file-invoice-dollar" style="color: var(--primary-color); font-size: 18px;"></i>
+            <span>ملخص الحساب</span>
+        </div>
+        
+        <div class="invoice-items" id="invoice-items-list">
+            </div>
+    </div>
+
+    <footer>
+        مغسلة الفاروق &copy; 2026 - جودة ونظافة تليق بكم 🐼✨
+    </footer>
+</div>
+
+<script>
+    // القياسات مرتبة: (h = الطول, w = العرض, label = مسمى اختياري)
+    const standardSizes = [
+        { h: 110, w: 60 }, 
+        { h: 150, w: 80 }, 
+        { h: 200, w: 80 },
+        { h: 300, w: 80 },
+        { h: 300, w: 100 }, 
+        { h: 120, w: 120, label: 'دائري' }, 
+        { h: 180, w: 120 }, 
+        { h: 190, w: 130 },
+        { h: 140, w: 140, label: 'دائري' },
+        { h: 200, w: 140 }, 
+        { h: 220, w: 150 }, 
+        { h: 160, w: 160, label: 'دائري' },
+        { h: 230, w: 160 },
+        { h: 270, w: 170 }, 
+        { h: 280, w: 180 }, 
+        { h: 290, w: 200 },
+        { h: 330, w: 220 },
+        { h: 400, w: 300 },
+        { h: 500, w: 400 }
+    ];
+
+    let quantities = {};
+    let customCarpets = [];
+    const PRICE_PER_SQM = 12;
+
+    // تهيئة القائمة
+    function init() {
+        const listContainer = document.getElementById('carpet-list');
+        listContainer.innerHTML = '';
+        
+        standardSizes.forEach(size => {
+            const key = `${size.h}/${size.w}${size.label ? '/' + size.label : ''}`;
+            quantities[key] = 0;
+
+            const labelText = size.label ? ` (${size.label})` : '';
+
+            const card = document.createElement('div');
+            card.className = 'carpet-card';
+            card.innerHTML = `
+                <div class="size-info">
+                    <span class="size-icon">🧼</span>
+                    <span class="size-text">${size.h} × ${size.w}${labelText}</span>
+                </div>
+                <div class="counter-controls">
+                    <button class="btn-counter btn-minus" onclick="changeQuantity('${key}', -1)">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <span class="quantity-display" id="qty-${key.replace(/\//g, '-')}">0</span>
+                    <button class="btn-counter btn-plus" onclick="changeQuantity('${key}', 1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    // تعديل الكمية
+    function changeQuantity(key, change) {
+        let current = quantities[key] || 0;
+        current += change;
+        if (current < 0) current = 0;
+        quantities[key] = current;
+        
+        const display = document.getElementById(`qty-${key.replace(/\//g, '-')}`);
+        display.innerText = current;
+        
+        display.classList.add('quantity-active');
+        setTimeout(() => display.classList.remove('quantity-active'), 150);
+    }
+
+    // إضافة مقاس مخصص
+    function addCustomCarpet() {
+        const heightInput = document.getElementById('custom-height');
+        const widthInput = document.getElementById('custom-width');
+        const h = parseInt(heightInput.value);
+        const w = parseInt(widthInput.value);
+
+        if (!w || !h || w <= 0 || h <= 0) {
+            alert('الرجاء إدخال أرقام مقاسات صحيحة أولاً!');
+            return;
+        }
+
+        customCarpets.push({
+            id: Date.now(),
+            h: h,
+            w: w,
+            qty: 1
+        });
+
+        heightInput.value = '';
+        widthInput.value = '';
+        renderCustomList();
+    }
+
+    function changeCustomQuantity(id, change) {
+        const carpet = customCarpets.find(item => item.id === id);
+        if (carpet) {
+            carpet.qty += change;
+            if (carpet.qty <= 0) {
+                deleteCustomCarpet(id);
+                return;
+            }
+            renderCustomList();
+        }
+    }
+
+    function deleteCustomCarpet(id) {
+        customCarpets = customCarpets.filter(item => item.id !== id);
+        renderCustomList();
+    }
+
+    // عرض المقاسات المخصصة المضافة
+    function renderCustomList() {
+        const container = document.getElementById('custom-added-list');
+        container.innerHTML = '';
+
+        customCarpets.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'carpet-card';
+            div.style.background = '#ECFDF5';
+            div.style.borderColor = 'rgba(34, 197, 94, 0.2)';
+            div.style.display = 'flex';
+            div.style.flexDirection = 'row';
+            div.style.justifyContent = 'space-between';
+            div.style.width = '100%';
+            
+            div.innerHTML = `
+                <div class="size-info">
+                    <span class="size-icon" style="color: var(--green)">📏</span>
+                    <span class="size-text">${item.h} × ${item.w} (يدوي)</span>
+                </div>
+                <div class="counter-controls" style="width: auto;">
+                    <button class="btn-counter btn-minus" onclick="changeCustomQuantity(${item.id}, -1)">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <span class="quantity-display">${item.qty}</span>
+                    <button class="btn-counter btn-plus" onclick="changeCustomQuantity(${item.id}, 1)">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    <button class="btn-delete-custom" onclick="deleteCustomCarpet(${item.id})">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // تفعيل التوصيل
+    function toggleDelivery() {
+        const checkbox = document.getElementById('delivery-checkbox');
+        checkbox.checked = !checkbox.checked;
+        onDeliveryToggle();
+    }
+
+    function onDeliveryToggle() {
+        const checkbox = document.getElementById('delivery-checkbox');
+        const optionsDiv = document.getElementById('delivery-options');
+        const textState = document.getElementById('toggle-state-text');
+        
+        if (checkbox.checked) {
+            optionsDiv.classList.add('show');
+            textState.innerText = "نعم";
+            textState.classList.add('active');
+        } else {
+            optionsDiv.classList.remove('show');
+            textState.innerText = "لا";
+            textState.classList.remove('active');
+        }
+    }
+
+    // التقريب لأقرب 10
+    function roundToNearestTen(value) {
+        let roundedNum = Math.round(value); 
+        let lastDigit = roundedNum % 10; 
+
+        if (lastDigit < 5) {
+            return roundedNum - lastDigit; 
+        } else {
+            return roundedNum + (10 - lastDigit); 
+        }
+    }
+
+    // حساب التكلفة الإجمالية
+    function calculateTotal() {
+        const itemsList = document.getElementById('invoice-items-list');
+        itemsList.innerHTML = '';
+        
+        let rawTotalSum = 0; 
+        let totalCarpetsQty = 0; 
+        let hasItems = false;
+        let elementsHTML = '';
+
+        // 1. معالجة السجاد الثابت
+        for (const [key, qty] of Object.entries(quantities)) {
+            if (qty > 0) {
+                hasItems = true;
+                totalCarpetsQty += qty;
+                const parts = key.split('/');
+                const hM = parseInt(parts[0]) / 100;
+                const wM = parseInt(parts[1]) / 100;
+                const labelText = parts[2] ? ` (${parts[2]})` : '';
+                
+                const area = hM * wM * qty;
+                const price = area * PRICE_PER_SQM;
+                rawTotalSum += price;
+
+                elementsHTML += `
+                    <div class="bill-item">
+                        <div class="bill-item-header">
+                            <span>🧼 ${parts[0]} × ${parts[1]}${labelText}</span>
+                            <span>${price.toFixed(2)} ₪</span>
+                        </div>
+                        <div class="bill-details">
+                            <span>المساحة الكلية: <span>${area.toFixed(2)} م²</span></span>
+                        </div>
+                    </div>
+                    <hr class="invoice-row-divider">
+                `;
+            }
+        }
+
+        // 2. معالجة السجاد المخصص
+        customCarpets.forEach(item => {
+            if (item.qty > 0) {
+                hasItems = true;
+                totalCarpetsQty += item.qty;
+                const hM = item.h / 100;
+                const wM = item.w / 100;
+                
+                const area = hM * wM * item.qty;
+                const price = area * PRICE_PER_SQM;
+                rawTotalSum += price;
+
+                elementsHTML += `
+                    <div class="bill-item">
+                        <div class="bill-item-header">
+                            <span>📏 ${item.h} × ${item.w} (يدوي)</span>
+                            <span>${price.toFixed(2)} ₪</span>
+                        </div>
+                        <div class="bill-details">
+                            <span>المساحة الكلية: <span>${area.toFixed(2)} م²</span></span>
+                        </div>
+                    </div>
+                    <hr class="invoice-row-divider">
+                `;
+            }
+        });
+
+        if (!hasItems) {
+            alert('الرجاء اختيار مقاس واحد على الأقل أولاً لإجراء الحساب!');
+            document.getElementById('invoice-card').style.display = 'none';
+            return;
+        }
+
+        // 3. حساب سعر التوصيل
+        const deliveryChecked = document.getElementById('delivery-checkbox').checked;
+        let deliveryPrice = 0;
+        if (deliveryChecked) {
+            const selectElement = document.getElementById('delivery-zone');
+            deliveryPrice = parseFloat(selectElement.value);
+            const zoneName = selectElement.options[selectElement.selectedIndex].text;
+            
+            rawTotalSum += deliveryPrice;
+
+            elementsHTML += `
+                <div class="delivery-bill-row">
+                    <span>🚚 التوصيل (${zoneName})</span>
+                    <span>${deliveryPrice.toFixed(2)} ₪</span>
+                </div>
+                <hr class="invoice-row-divider">
+            `;
+        }
+
+        const roundedTotal = roundToNearestTen(rawTotalSum);
+
+        // 4. عرض الإجمالي المحدث
+        elementsHTML += `
+            <div class="total-bill-row">
+                <div class="bill-summary-row">
+                    <span>عدد السجاد الإجمالي:</span>
+                    <span><span>${totalCarpetsQty}</span> قطع</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 6px;">
+                    <span class="total-title">الإجمالي النهائي</span>
+                    <span class="total-price">${roundedTotal} ₪</span>
+                </div>
+                <div class="rounding-note">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>المبلغ مقرب لأقرب 10 شواكل تيسيراً للفكة</span>
+                </div>
+            </div>
+        `;
+
+        itemsList.innerHTML = elementsHTML;
+        
+        const invoiceCard = document.getElementById('invoice-card');
+        invoiceCard.style.display = 'block';
+        setTimeout(() => {
+            invoiceCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    }
+
+    // تصفير البيانات
+    function resetAll() {
+        if (confirm('هل أنت متأكد من تصفير الفاتورة وإلغاء كافة الاختيارات؟')) {
+            quantities = {};
+            customCarpets = [];
+            document.getElementById('custom-added-list').innerHTML = '';
+            document.getElementById('custom-width').value = '';
+            document.getElementById('custom-height').value = '';
+            
+            const checkbox = document.getElementById('delivery-checkbox');
+            checkbox.checked = false;
+            onDeliveryToggle();
+            
+            document.getElementById('invoice-card').style.display = 'none';
+            init();
+        }
+    }
+
+    window.onload = init;
+</script>
+
+</body>
+</html>
